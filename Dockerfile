@@ -1,11 +1,11 @@
-# Use an official Python image as the base
 FROM public.ecr.aws/lambda/python:3.12
 
-# Copy the current directory contents into the container
-COPY ./app ${LAMBDA_TASK_ROOT}
+# Copy application code and dependency manifest
+COPY app/ ${LAMBDA_TASK_ROOT}/
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir \
+    -r ${LAMBDA_TASK_ROOT}/requirements.txt
 
-# Set the default command to run when the container starts
+# Lambda entry point
 CMD ["lambda.lambda_handler"]
